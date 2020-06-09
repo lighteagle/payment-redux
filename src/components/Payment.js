@@ -8,12 +8,14 @@ export default function Payment() {
   const getPaymentList = useSelector((state) => state.paymentList);
   const infoAdd = useSelector((state) => state.infoAdd);
   const infoEdit = useSelector((state) => state.infoEdit);
+  const infoDelete = useSelector((state) => state.infoDelete);
   const dispatch = useDispatch();
 
   useEffect(() => dispatch(fetchGetPaymentList()), [
     dispatch,
     infoAdd,
     infoEdit,
+    infoDelete,
   ]);
 
   const [modal, setModal] = useState(false);

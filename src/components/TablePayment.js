@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchEditPayment } from "../redux";
+import { fetchEditPayment, fetchDeletePayment } from "../redux";
 import BootstrapTable from "react-bootstrap-table-next";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,6 +72,12 @@ export default function TablePayment({ paymentList }) {
       },
       headerStyle: () => {
         return { width: "100px" };
+      },
+      events: {
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          console.log(row);
+          dispatch(fetchDeletePayment(row.id));
+        },
       },
     },
   ];

@@ -7,37 +7,37 @@ import {
   FETCH_DELETE_PAYMENT_FAILURE,
 } from "./deletePaymentTypes";
 
-export const fecthDeletePaymentRequest = () => {
+export const fetchDeletePaymentRequest = () => {
   return {
     type: FETCH_DELETE_PAYMENT_REQUEST,
   };
 };
-export const fecthDeletePaymentSuccess = (info) => {
+export const fetchDeletePaymentSuccess = (info) => {
   return {
     type: FETCH_DELETE_PAYMENT_SUCCESS,
     payload: info,
   };
 };
-export const fecthDeletePaymentFailure = (error) => {
+export const fetchDeletePaymentFailure = (error) => {
   return {
     type: FETCH_DELETE_PAYMENT_FAILURE,
     payload: error,
   };
 };
 
-export const fetchAddPayment = (id) => {
+export const fetchDeletePayment = (id) => {
   return (dispatch) => {
-    dispatch(fecthDeletePaymentRequest);
+    dispatch(fetchDeletePaymentRequest);
     axios
-      .delete(PAYMENT + `${id}`)
+      .delete(PAYMENT + `/${id}`)
       .then((response) => {
         const info = response.data;
         // console.log(response.data);
-        dispatch(fecthDeletePaymentSuccess(info));
+        dispatch(fetchDeletePaymentSuccess(info));
       })
       .catch((error) => {
         const errorMsg = error.message;
-        dispatch(fecthDeletePaymentFailure("Fetch Add Payment : " + errorMsg));
+        dispatch(fetchDeletePaymentFailure("Fetch Add Payment : " + errorMsg));
       });
   };
 };

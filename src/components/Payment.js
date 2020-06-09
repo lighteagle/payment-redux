@@ -29,8 +29,8 @@ export default function Payment() {
       {getPaymentList.paymentList.data && (
         <TablePayment paymentList={getPaymentList.paymentList.data} />
       )}
-      <Button color="primary" onClick={handleAdd}>
-        Add
+      <Button color="primary" onClick={handleAdd} className="float-right">
+        + Add
       </Button>
 
       <Modal isOpen={modal} toggle={toggle}>
@@ -47,7 +47,7 @@ export default function Payment() {
             Cancel
           </Button>
           <Button color="primary" onClick={toggle}>
-            Add
+            {isAdd ? "Add " : "Edit "}
           </Button>
         </ModalFooter>
       </Modal>

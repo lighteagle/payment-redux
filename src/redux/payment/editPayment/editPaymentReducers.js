@@ -1,8 +1,8 @@
 import {
-  FETCH_ADD_PAYMENT_REQUEST,
-  FETCH_ADD_PAYMENT_SUCCESS,
-  FETCH_ADD_PAYMENT_FAILURE,
-} from "./addPaymentTypes";
+  FETCH_EDIT_PAYMENT_REQUEST,
+  FETCH_EDIT_PAYMENT_SUCCESS,
+  FETCH_EDIT_PAYMENT_FAILURE,
+} from "./editPaymentTypes";
 
 const initialState = {
   loading: false,
@@ -12,19 +12,19 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_ADD_PAYMENT_REQUEST:
+    case FETCH_EDIT_PAYMENT_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case FETCH_ADD_PAYMENT_SUCCESS:
+    case FETCH_EDIT_PAYMENT_SUCCESS:
       return {
         loading: false,
         info: action.payload,
         error: "",
       };
 
-    case FETCH_ADD_PAYMENT_FAILURE:
+    case FETCH_EDIT_PAYMENT_FAILURE:
       return {
         loading: false,
         info: "",

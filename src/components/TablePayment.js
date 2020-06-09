@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchEditPayment } from "../redux";
 import BootstrapTable from "react-bootstrap-table-next";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +10,8 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 export default function TablePayment({ paymentList }) {
+  const dispatch = useDispatch();
+
   const [modal, setModal] = useState(false);
   const [paymentName, setPaymentName] = useState("");
   const [paymentId, setPaymentId] = useState("");
@@ -17,6 +21,11 @@ export default function TablePayment({ paymentList }) {
     setPaymentName(payName);
     toggle();
     console.log(paymentId);
+  };
+
+  const handleEditModal = (id, payment) => {
+    dispatch(fetchEditPayment(id, payment));
+    toggle();
   };
 
   const { SearchBar } = Search;
@@ -33,6 +42,9 @@ export default function TablePayment({ paymentList }) {
       dataField: "name",
       text: "Name",
       sort: true,
+      style: {
+        cursor: "pointer",
+      },
       events: {
         onClick: (e, column, columnIndex, row, rowIndex) => {
           console.log(row);
@@ -53,10 +65,10 @@ export default function TablePayment({ paymentList }) {
       },
     },
     {
-      dataField: "fixed",
+      // dataField: "fixed",
       text: "Delete",
       formatter: (rowContent, row) => {
-        return <FontAwesomeIcon icon={faTrash} />;
+        return <FontAwesomeIcon icon={faTrash} style={{ cursor: "pointer" }} />;
       },
       headerStyle: () => {
         return { width: "100px" };
@@ -148,7 +160,10 @@ export default function TablePayment({ paymentList }) {
           <Button color="secondary" onClick={toggle}>
             Cancel
           </Button>
-          <Button color="primary" onClick={toggle}>
+          <Button
+            color="primary"
+            onClick={() => handleEditModal(paymentId, paymentName)}
+          >
             Edit
           </Button>
         </ModalFooter>

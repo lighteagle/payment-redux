@@ -7,9 +7,14 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 export default function Payment() {
   const getPaymentList = useSelector((state) => state.paymentList);
   const infoAdd = useSelector((state) => state.infoAdd);
+  const infoEdit = useSelector((state) => state.infoEdit);
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(fetchGetPaymentList()), [dispatch, infoAdd]);
+  useEffect(() => dispatch(fetchGetPaymentList()), [
+    dispatch,
+    infoAdd,
+    infoEdit,
+  ]);
 
   const [modal, setModal] = useState(false);
   const [paymentName, setPaymentName] = useState("");

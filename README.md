@@ -2,7 +2,7 @@
 
 Ini adalah project **single page aplication** menggunakan **React JS**
 
-pada halaman ini user dapat melakukan **CRUD (Create Read Update Delete) terhadap data payment**
+pada halaman ini user dapat melakukan **CRUD (Create Read Update Delete)** terhadap **data payment**
 
 untuk state management menggunakan **redux** dan library **thunk**
 untuk menjalankannya

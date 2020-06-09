@@ -1,5 +1,9 @@
 import { combineReducers } from "redux";
 
-const rootReducer = combineReducers({});
+import getPaymentListReducer from "./payment/getPaymentList/getPaymentListReducers";
+
+const rootReducer = combineReducers({
+  paymentList: getPaymentListReducer,
+});
 
 export default rootReducer;

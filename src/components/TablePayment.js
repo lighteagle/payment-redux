@@ -43,10 +43,16 @@ const columns = [
     },
   },
 ];
+const rowEvents = {
+  onClick: (e, row, rowIndex) => {
+    console.log(`clicked on row with index: ${rowIndex}`, row.id, row.name);
+  },
+};
+
 const defaultSorted = [
   {
     dataField: "id",
-    order: "asc",
+    order: "desc",
   },
 ];
 
@@ -63,7 +69,7 @@ export default function TablePayment({ paymentList }) {
     // alwaysShowAllBtns: true, // Always show next and previous button
     // withFirstAndLast: false, // Hide the going to First and Last page button
     // hideSizePerPage: true, // Hide the sizePerPage dropdown always
-    // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+    hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
     firstPageText: "First",
     prePageText: "Back",
     nextPageText: "Next",
@@ -106,6 +112,7 @@ export default function TablePayment({ paymentList }) {
           </div>
           <BootstrapTable
             {...props.baseProps}
+            rowEvents={rowEvents}
             pagination={paginationFactory(options)}
           />
         </div>

@@ -12,13 +12,11 @@ export default function Payment() {
   useEffect(() => dispatch(fetchGetPaymentList()), [dispatch, infoAdd]);
 
   const [modal, setModal] = useState(false);
-  const [isAdd, setIsAdd] = useState(true);
   const [paymentName, setPaymentName] = useState("");
 
   const toggle = () => setModal(!modal);
 
   const handleShowAddModal = () => {
-    setIsAdd(true);
     setPaymentName("");
     toggle();
   };
@@ -26,11 +24,6 @@ export default function Payment() {
   const handleAddModal = (payment) => {
     dispatch(fetchAddPayment(payment));
     setPaymentName("");
-    toggle();
-  };
-
-  const handleEdit = () => {
-    setIsAdd(false);
     toggle();
   };
 
@@ -50,9 +43,7 @@ export default function Payment() {
       </Button>
 
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>
-          {isAdd ? "Add Payment" : "Edit Payment"}
-        </ModalHeader>
+        <ModalHeader toggle={toggle}>Add Payment</ModalHeader>
         <ModalBody>
           <label>
             Name :{" "}
@@ -68,7 +59,7 @@ export default function Payment() {
             Cancel
           </Button>
           <Button color="primary" onClick={() => handleAddModal(paymentName)}>
-            {isAdd ? "Add " : "Edit "}
+            Add
           </Button>
         </ModalFooter>
       </Modal>

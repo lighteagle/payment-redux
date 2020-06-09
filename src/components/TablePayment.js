@@ -1,74 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-
-const { SearchBar } = Search;
-const columns = [
-  {
-    dataField: "id",
-    text: "ID",
-    sort: true,
-    headerStyle: () => {
-      return { width: "50px" };
-    },
-  },
-  {
-    dataField: "name",
-    text: "Name",
-    sort: true,
-  },
-  {
-    dataField: "is_active",
-    text: "Active",
-    formatter: (rowContent, row) => {
-      return <BootstrapSwitchButton checked={true} size="sm" />;
-    },
-
-    headerStyle: () => {
-      return { width: "100px" };
-    },
-  },
-  {
-    dataField: "fixed",
-    text: "Delete",
-    formatter: (rowContent, row) => {
-      return <FontAwesomeIcon icon={faTrash} />;
-    },
-    headerStyle: () => {
-      return { width: "100px" };
-    },
-  },
-];
-const rowEvents = {
-  onClick: (e, row, rowIndex) => {
-    console.log(`clicked on row with index: ${rowIndex}`, row.id, row.name);
-  },
-};
-
-const defaultSorted = [
-  {
-    dataField: "id",
-    order: "desc",
-  },
-];
-
-const customTotal = (from, to, size) => (
-  <span className="react-bootstrap-table-pagination-total">
-    Showing {from} to {to} of {size} Results
-  </span>
-);
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 export default function TablePayment({ paymentList }) {
+  const [modal, setModal] = useState(false);
+  const [paymentName, setPaymentName] = useState("");
+  const [paymentId, setPaymentId] = useState("");
+
+  const toggle = () => setModal(!modal);
+  const handleShowEditModal = (payName) => {
+    setPaymentName(payName);
+    toggle();
+    console.log(paymentId);
+  };
+
+  const { SearchBar } = Search;
+  const columns = [
+    {
+      dataField: "id",
+      text: "ID",
+      sort: true,
+      headerStyle: () => {
+        return { width: "50px" };
+      },
+    },
+    {
+      dataField: "name",
+      text: "Name",
+      sort: true,
+      events: {
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          console.log(row);
+          setPaymentId(row.id);
+          handleShowEditModal(row.name);
+        },
+      },
+    },
+    {
+      dataField: "is_active",
+      text: "Active",
+      formatter: (rowContent, row) => {
+        return <BootstrapSwitchButton checked={true} size="sm" />;
+      },
+
+      headerStyle: () => {
+        return { width: "100px" };
+      },
+    },
+    {
+      dataField: "fixed",
+      text: "Delete",
+      formatter: (rowContent, row) => {
+        return <FontAwesomeIcon icon={faTrash} />;
+      },
+      headerStyle: () => {
+        return { width: "100px" };
+      },
+    },
+  ];
+
+  const defaultSorted = [
+    {
+      dataField: "id",
+      order: "desc",
+    },
+  ];
+
+  const customTotal = (from, to, size) => (
+    <span className="react-bootstrap-table-pagination-total">
+      Showing {from} to {to} of {size} Results
+    </span>
+  );
+
   const options = {
     paginationSize: 4,
     pageStartIndex: 0,
-    // alwaysShowAllBtns: true, // Always show next and previous button
-    // withFirstAndLast: false, // Hide the going to First and Last page button
-    // hideSizePerPage: true, // Hide the sizePerPage dropdown always
     hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
     firstPageText: "First",
     prePageText: "Back",
@@ -94,29 +105,54 @@ export default function TablePayment({ paymentList }) {
         text: "All",
         value: paymentList.length,
       },
-    ], // A numeric array is also available. the purpose of above example is custom the text
+    ],
   };
+
   return (
-    <ToolkitProvider
-      bootstrap4
-      keyField="id"
-      data={paymentList}
-      columns={columns}
-      defaultSorted={defaultSorted}
-      search
-    >
-      {(props) => (
-        <div>
-          <div className="float-right">
-            <SearchBar {...props.searchProps} placeholder="Search ..." />
+    <>
+      <ToolkitProvider
+        bootstrap4
+        keyField="id"
+        data={paymentList}
+        columns={columns}
+        defaultSorted={defaultSorted}
+        search
+      >
+        {(props) => (
+          <div>
+            <div className="float-right">
+              <SearchBar {...props.searchProps} placeholder="Search ..." />
+            </div>
+            <BootstrapTable
+              {...props.baseProps}
+              // rowEvents={rowEvents}
+              pagination={paginationFactory(options)}
+            />
           </div>
-          <BootstrapTable
-            {...props.baseProps}
-            rowEvents={rowEvents}
-            pagination={paginationFactory(options)}
-          />
-        </div>
-      )}
-    </ToolkitProvider>
+        )}
+      </ToolkitProvider>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Edit Payment</ModalHeader>
+        <ModalBody>
+          <label>
+            Name :{" "}
+            <input
+              type="text"
+              name="name"
+              value={paymentName}
+              onChange={(e) => setPaymentName(e.target.value)}
+            />
+          </label>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
+          <Button color="primary" onClick={toggle}>
+            Edit
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 }
